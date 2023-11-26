@@ -3,7 +3,8 @@ from django.core.mail import send_mail
 
 
 @shared_task
-def send_hello_email_task(email):
+def send_hello_email_task(email) -> None:
+    """Отправка приветственного письма новому пользователю"""
     send_mail(
         'Welcome to Library',
         'Thank you so much for registration. Hope you won\'t regret it!',

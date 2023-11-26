@@ -10,29 +10,34 @@ class BookViewSet(ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-    def list(self, request, *args, **kwargs):
+    """Получение списка книг"""
+    def list(self, request, *args, **kwargs) -> Response:
         serializer = super(BookViewSet, self).list(request)
         return Response({'books': serializer.data})
 
-    def retrieve(self, request, *args, **kwargs):
+    """Получение детальной информации о книге"""
+    def retrieve(self, request, *args, **kwargs) -> Response:
         instance = self.get_object()
         serializer = BookSerializer(instance)
         return Response(serializer.data)
 
-    def create(self, request, *args, **kwargs):
+    """Добавление новой книги"""
+    def create(self, request, *args, **kwargs) -> Response:
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         obj = serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def update(self, request, *args, **kwargs):
+    """Обновление информации о книге"""
+    def update(self, request, *args, **kwargs) -> Response:
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         obj = serializer.save()
         return Response(serializer.data)
 
-    def destroy(self, request, *args, **kwargs):
+    """Удаление книги"""
+    def destroy(self, request, *args, **kwargs) -> Response:
         instance = self.get_object()
         self.perform_destroy(instance)
         return Response(status=status.HTTP_200_OK)
